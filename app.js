@@ -16,7 +16,7 @@ import roomRouter from './src/modules/room/room.route.js';
 
 const app = express();
 
-app.enable('trust proxy');
+app.enable('trust proxy',1);
 
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',').map((origin) => origin.trim())
