@@ -71,7 +71,13 @@ const getAllRooms = async (query) => {
 const updateRoom = async ({ room, data, file }) => {
   if (data.name) room.name = data.name;
   if (data.privacyType) room.privacyType = data.privacyType;
-  if (data.password) room.password = data.password;
+
+  if (data.privacyType && data.privacyType !== 'private_password') {
+    room.password = undefined;
+  } else if (data.password) {
+    room.password = data.password;
+  }
+
   if (
     data.maxMembers &&
     !Number.isNaN(+data.maxMembers) &&

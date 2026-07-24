@@ -53,7 +53,7 @@ const getAllRooms = catchAsync(async (req, res, next) => {
 });
 
 const updateRoom = catchAsync(async (req, res, next) => {
-  const room = await Room.findById(req.params.id);
+  const room = await Room.findById(req.params.id).select('+password');
 
   if (!room) return next(new AppError('Room not found', 404));
 
