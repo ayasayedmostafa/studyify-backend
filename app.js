@@ -18,8 +18,12 @@ const app = express();
 
 app.enable('trust proxy');
 
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map((origin) => origin.trim())
+  : ['http://localhost:4200'];
+
 app.use(cors({
-  origin: 'http://localhost:4200',
+  origin: allowedOrigins,
   credentials: true,
 }));
 
