@@ -1,5 +1,4 @@
 import Friendship, { buildPairKey } from './friendship.model.js';
-import User from '../user/user.model.js';
 import APIFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/error/appError.js';
 import validateObjectId from '../../utils/validateObjectId.js';
@@ -138,35 +137,17 @@ const getFriends = async (currentUserId, query) => {
     $or: [{ requester: currentUserId }, { recipient: currentUserId }],
   };
 
-  if (query.search) {
-    const keyword = query.search;
-
-    const matchingUsers = await User.find({
-      $or: [
-        { name: { $regex: keyword, $options: 'i' } },
-        { email: { $regex: keyword, $options: 'i' } },
-      ],
-    }).select('_id');
-
-    const matchingUserIds = matchingUsers.map((user) => user._id);
-
-    match.$and = [
-      { $or: [{ requester: currentUserId }, { recipient: currentUserId }] },
-      {
-        $or: [
-          { requester: { $in: matchingUserIds } },
-          { recipient: { $in: matchingUserIds } },
-        ],
-      },
-    ];
-    delete match.$or;
-  }
-
   const features = new APIFeatures(
     Friendship.find(match).populate(FRIEND_POPULATION),
     query,
   )
     .filter()
+    .search([
+      'requester.name',
+      'recipient.name',
+      'requester.email',
+      'recipient.email',
+    ])
     .sort()
     .select()
     .paginate();
