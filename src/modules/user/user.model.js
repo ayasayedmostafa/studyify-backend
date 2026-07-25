@@ -19,7 +19,6 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      select: false,
       minlength: [8, 'Password must be at least 8 characters.'],
       maxlength: [30, 'Password must not exceed 30 characters.'],
       required: [true, 'Password is required.'],
@@ -71,6 +70,7 @@ const userSchema = new mongoose.Schema(
 const hiddenFields = (doc, ret) => {
   delete ret.__v;
   delete ret.updatedAt;
+  delete ret.isVerified;
   delete ret.password;
   delete ret.passwordChangedAt;
   delete ret.otp;

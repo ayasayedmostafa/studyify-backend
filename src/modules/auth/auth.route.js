@@ -4,11 +4,6 @@ import * as authValidation from './auth.validation.js';
 import validation from '../../middlewares/validation.middleware.js';
 import * as authController from './auth.controller.js';
 import checkOtpPurpose from '../../middlewares/checkOtpPurpose.js';
-import {
-  loginLimiter,
-  otpRequestLimiter,
-  otpVerifyLimiter,
-} from '../../middlewares/rateLimiter.js';
 
 const authRouter = express.Router();
 
@@ -19,7 +14,6 @@ authRouter.post(
 );
 authRouter.post(
   '/send-otp/:purpose',
-  otpRequestLimiter,
   checkOtpPurpose,
   authController.sendOtp,
 );
@@ -30,18 +24,12 @@ authRouter.patch(
 );
 authRouter.post(
   '/login',
-  loginLimiter,
   validation(authValidation.loginSchema),
   authController.login,
 );
-authRouter.post(
-  '/verify-otp/:purpose',
-  otpVerifyLimiter,
-  authController.verifyOtp,
-);
+authRouter.post('/verify-otp/:purpose', authController.verifyOtp);
 authRouter.patch(
   '/reset-password',
-  otpVerifyLimiter,
   validation(authValidation.resetPasswordSchema),
   authController.resetPassword,
 );
