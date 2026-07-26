@@ -138,11 +138,11 @@ const getFriends = async (currentUserId, query) => {
   };
 
   const features = new APIFeatures(
-    Friendship.find(match).populate(FRIEND_POPULATION),
-    query,
-  )
-    .filter()
-    .search([
+  Friendship.find(match).populate(FRIEND_POPULATION),
+  query,
+)
+  .filter([])
+  .search([...
       'requester.name',
       'recipient.name',
       'requester.email',

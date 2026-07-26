@@ -31,8 +31,6 @@ taskRouter
 
 taskRouter.patch("/tasks/:id/toggle", ensureTaskRoomMember, taskController.toggleTask);
 
-taskRouter.get("/test", (req, res) => {
-  res.json({ message: "working" });
-});
+
 
 export default taskRouter;

@@ -35,5 +35,16 @@ const otpVerifyLimiter = rateLimit({
     message: 'Too many attempts. Please request a new OTP and try again later.',
   },
 });
+// Registration: 5 accounts / hour per IP (stops bulk/bot signups)
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  limit: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    status: 'fail',
+    message: 'Too many accounts created from this IP. Please try again later.',
+  },
+});
 
-export { loginLimiter, otpRequestLimiter, otpVerifyLimiter };
+export { loginLimiter, otpRequestLimiter, otpVerifyLimiter, registerLimiter };

@@ -6,12 +6,13 @@ import {
   loginLimiter,
   otpRequestLimiter,
   otpVerifyLimiter,
+  registerLimiter,
 } from '../../middlewares/rateLimiter.js';
-
 const authRouter = express.Router();
 
 authRouter.post(
   '/register',
+  registerLimiter,
   validation(authValidation.registerSchema),
   authController.register,
 );

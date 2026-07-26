@@ -37,8 +37,9 @@ const getRoomById = async (id) => {
 };
 
 const getAllRooms = async (query) => {
-  const features = new APIFeatures(Room.find(), query).search().filter();
-
+ const features = new APIFeatures(Room.find(), query)
+  .search()
+  .filter(['privacyType', 'createdBy']);
   const countQuery = features.mongooseQuery.clone();
 
   const total = await Room.countDocuments(countQuery.getFilter());

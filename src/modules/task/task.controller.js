@@ -26,13 +26,12 @@ export const getRoomTasks = catchAsync(async (req, res, next) => {
     .populate('createdBy', 'name')
     .populate('doneBy.user', 'name');
 
-  const features = new APIFeatures(query, req.query)
-    .search()
-    .filter()
-    .sort()
-    .select()
-    .paginate();
-
+ const features = new APIFeatures(query, req.query)
+  .search()
+  .filter(['createdBy'])
+  .sort()
+  .select()
+  .paginate();
   const tasks = await features.mongooseQuery;
 
   const tasksWithDoneCount = tasks.map(task => ({

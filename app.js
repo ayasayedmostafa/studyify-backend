@@ -13,9 +13,9 @@ import messageRouter from './src/modules/message/message.route.js';
 import notificationRouter from './src/modules/notification/notification.route.js';
 import friendshipRouter from './src/modules/friendship/friendship.route.js';
 import roomRouter from './src/modules/room/room.route.js';
-
+import helmet from 'helmet';
 const app = express();
-
+app.use(helmet());
 app.enable('trust proxy');
 
 const allowedOrigins = process.env.CORS_ORIGIN
