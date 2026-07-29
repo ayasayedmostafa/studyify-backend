@@ -2,6 +2,7 @@ import express from 'express';
 import * as authValidation from './auth.validation.js';
 import validation from '../../middlewares/validation.middleware.js';
 import * as authController from './auth.controller.js';
+import { isAuthenticated } from '../../middlewares/auth.middleware.js';
 import {
   loginLimiter,
   otpRequestLimiter,
@@ -40,5 +41,7 @@ authRouter.patch(
 );
 
 authRouter.post('/logout', authController.logout);
+
+authRouter.get('/socket-token', isAuthenticated, authController.getSocketToken);
 
 export default authRouter;

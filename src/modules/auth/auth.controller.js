@@ -166,6 +166,17 @@ const logout = (req, res) => {
   });
 };
 
+// بيرجع نفس التوكن اللي في كوكي الـ jwt، عشان الفرونت يقدر يبعته صراحة
+// مع اتصال الـ socket. ده لازم لأن بعض المتصفحات (زي Safari) بترفض
+// ترسل الكوكيز على اتصالات cross-site زي socket.io لما الفرونت والباك
+// اند على دومينين مختلفين.
+const getSocketToken = catchAsync(async (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    data: { token: req.token },
+  });
+});
+
 export {
   register,
   sendOtp,
@@ -174,4 +185,5 @@ export {
   resetPassword,
   updateMyPassword,
   logout,
+  getSocketToken,
 };
